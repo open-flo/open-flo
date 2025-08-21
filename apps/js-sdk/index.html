@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowLight Test Page</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+
+        .controls {
+            background: #e9ecef;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+        }
+
+        .btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status.visible {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status.hidden {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .keyboard-shortcut {
+            background: #2d3748;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .info-box {
+            background: #bee3f8;
+            border: 1px solid #90cdf4;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .content-area {
+            min-height: 400px;
+            background: #f7fafc;
+            border: 2px dashed #cbd5e0;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .content-area::before {
+            content: "Content Area";
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 12px;
+            color: #718096;
+            font-weight: 600;
+        }
+
+        .sample-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .sample-content h2 {
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .sample-content p {
+            margin-bottom: 15px;
+            color: #4a5568;
+        }
+
+        .api-info {
+            background: #fef5e7;
+            border: 1px solid #f6ad55;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .api-info h4 {
+            margin-top: 0;
+            color: #c05621;
+        }
+
+        code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .method-list {
+            background: #f7fafc;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .method-list ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .method-list li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🌊 FlowLight Test Page</h1>
+
+        <div class="info-box">
+            <strong>Welcome to FlowLight!</strong> This page demonstrates the FlowLight command interface library.
+            Look for the floating button in the bottom-right corner and try the keyboard shortcuts below.
+        </div>
+
+        <div class="controls">
+            <h3>Manual Controls</h3>
+            <p>Test FlowLight programmatically:</p>
+
+            <button class="btn" onclick="flowLightInstance.showSearch()">Show Search</button>
+            <button class="btn" onclick="flowLightInstance.hideSearch()">Hide Search</button>
+            <button class="btn" onclick="flowLightInstance.toggleSearch()">Toggle Search</button>
+            <button class="btn" onclick="flowLightInstance.showChat()">Show Chat</button>
+            <button class="btn" onclick="flowLightInstance.hideChat()">Hide Chat</button>
+            <button class="btn" onclick="flowLightInstance.toggleChat()">Toggle Chat</button>
+
+            <div style="margin-top: 15px;">
+                <strong>Status:</strong>
+                <span>Search</span>
+                <span id="searchStatus" class="status hidden">Hidden</span>
+                <span>Chat</span>
+                <span id="chatStatus" class="status hidden">Hidden</span>
+            </div>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>🔍 Search Interface</h3>
+                <p>Press <span class="keyboard-shortcut">Ctrl+K</span> (or <span class="keyboard-shortcut">Cmd+K</span>
+                    on Mac) to open the search interface.</p>
+                <p>Type your queries and see suggestions appear instantly.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>💬 Chat Interface</h3>
+                <p>Click the floating button or use the manual controls to open the chat interface.</p>
+                <p>Perfect for command-based interactions and AI assistance.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>🎯 Floating Button</h3>
+                <p>The floating button in the bottom-right provides quick access to both interfaces.</p>
+                <p>Configurable position and styling options available.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>⌨️ Keyboard Shortcuts</h3>
+                <p>Built-in keyboard shortcuts for power users:</p>
+                <ul>
+                    <li><span class="keyboard-shortcut">Ctrl/Cmd+K</span> - Toggle search</li>
+                    <li><span class="keyboard-shortcut">Esc</span> - Close interfaces</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="api-info">
+            <h4>🔧 API Methods Available</h4>
+            <p>The FlowLight instance is available globally as <code>flowLightInstance</code>. Try these methods in the
+                browser console:</p>
+
+            <div class="method-list">
+                <ul>
+                    <li><code>flowLightInstance.showSearch()</code> - Show search interface</li>
+                    <li><code>flowLightInstance.hideSearch()</code> - Hide search interface</li>
+                    <li><code>flowLightInstance.toggleSearch()</code> - Toggle search interface</li>
+                    <li><code>flowLightInstance.showChat()</code> - Show chat interface</li>
+                    <li><code>flowLightInstance.hideChat()</code> - Hide chat interface</li>
+                    <li><code>flowLightInstance.toggleChat()</code> - Toggle chat interface</li>
+                    <li><code>flowLightInstance.isSearchVisible</code> - Check search visibility</li>
+                    <li><code>flowLightInstance.isChatVisible</code> - Check chat visibility</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="sample-content">
+                <h2>Sample Content Area</h2>
+                <p>This is a sample content area to demonstrate how FlowLight overlays work with existing page content.
+                    The floating button and interfaces should appear above this content without interfering with the
+                    page layout.</p>
+
+                <p>Try the following interactions:</p>
+                <ul>
+                    <li>Use the keyboard shortcut <span class="keyboard-shortcut">Ctrl/Cmd+K</span> to open search</li>
+                    <li>Click the floating button in the bottom-right corner</li>
+                    <li>Type in the search interface to see suggestions</li>
+                    <li>Use the manual control buttons above</li>
+                    <li>Open browser console and try the API methods</li>
+                </ul>
+
+                <p>The interfaces should smoothly animate in and out, providing a polished user experience that doesn't
+                    disrupt the main page content.</p>
+
+                <h2>Configuration Options</h2>
+                <p>This test page uses the following FlowLight configuration:</p>
+                <ul>
+                    <li><strong>Debug mode:</strong> Enabled (check console for logs)</li>
+                    <li><strong>Button position:</strong> Bottom-right (20px from edges)</li>
+                    <li><strong>Button size:</strong> 60px</li>
+                    <li><strong>Keyboard shortcuts:</strong> Enabled</li>
+                    <li><strong>Default mode:</strong> Chat (as configured in NUDGE_CONFIG)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- FlowLight Library -->
+    <script src="dist/flowlight.umd.js"></script>
+    <!-- <script src="https://cdn.flowvana.tech/prod-dist/flowlight.umd.js"></script> -->
+
+    <script>
+        // Initialize FlowLight with debug options
+        window.flowLightInstance = new FlowLight({
+            debug: true,
+            buttonSize: 60,
+            buttonPosition: { bottom: 20, right: 20 },
+            zIndex: 999999,
+            keyboardShortcuts: true,
+            // Custom suggestions for this demo
+            suggestions: [
+                "How to create a new project?",
+                "Show available templates",
+                "Documentation search",
+                "Get started guide"
+            ],
+            // Custom input placeholder text
+            inputPlaceholder: "Ask anything about your project or search our docs...",
+            // Custom theme colors (optional - will be deep merged with defaults)
+            themeColors: {
+                primary: "#2563EB", // Custom blue color
+                nudgeGradient: "linear-gradient(90deg, #2563EB, #3B82F6, #1D4ED8)"
+            }
+            // Note: buttonIcon can also be customized here with your own SVG
+        });
+
+        const flowLightInstance = window.flowLightInstance;
+
+        flowLightInstance.toggleChat();
+
+        // Define flow configurations (similar to search space configs)
+        const flowConfigs = [
+            {
+                name: 'create-project',
+                description: 'Create a project of given name',
+                inputs: {
+                    "name": {
+                        "type": "string",
+                        "required": true
+                    }
+                },
+                steps: [
+                    {
+                        name: 'Create project',
+                        url: "https://test-manager-api.lambdatest.com/api/v1/projects",
+                        method: "POST",
+                        auth: {
+                            type: "Bearer",
+                            source: {
+                                type: "cookie",
+                                name: "accessToken"
+                            }
+                        },
+                        payloadSchema: {
+                            name: {
+                                type: "string",
+                                required: true
+                            },
+                            description: {
+                                type: "string",
+                                required: false
+                            },
+                            tags: {
+                                type: "json-array",
+                                required: false
+                            },
+                            source: {
+                                type: "string",
+                                required: true,
+                                default: "KTM",
+                            }
+                        }
+                    }
+                ]
+            }
+        ];
+
+        // Initialize and register flows using the new combined method
+        const flows = flowLightInstance.initializeFlows(flowConfigs);
+
+
+        const searchSpaceConfigs = [
+            {
+                "name": "Project",
+                "url": "https://test-manager-api.lambdatest.com/api/v1/tms/projects?per_page=10&page=1&filter[name]=${query}",
+                "auth_config": {
+                    "type": "Bearer",
+                    "source": {
+                        "from": "cookie",
+                        "name": "accessToken"
+                    }
+                },
+                "data_list_path": "$.data",
+                "navigation_url_formula": "https://test-manager.lambdatest.com/projects/${data['$.project_id']}/test-cases",
+                "navigation_title_formula": "${data['$.name']}",
+            }
+        ];
+
+        // Initialize search spaces using the new method
+        flowLightInstance.initializeSearchSpaces(searchSpaceConfigs);
+
+
+    </script>
+</body>
+
+</html>

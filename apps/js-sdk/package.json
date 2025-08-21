@@ -1,0 +1,69 @@
+{
+  "name": "flowlight",
+  "version": "1.0.4",
+  "type": "module",
+  "description": "A lightweight command interface library with floating button, search functionality, and React integration",
+  "main": "dist/flowlight.umd.js",
+  "module": "dist/flowlight.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/flowlight.esm.js",
+      "require": "./dist/flowlight.umd.js"
+    },
+    "./react": {
+      "import": "./react/FlowvanaProvider.js",
+      "require": "./react/FlowvanaProvider.js"
+    }
+  },
+  "files": [
+    "dist",
+    "react"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "build:prod": "NODE_ENV=production rollup -c",
+    "dev": "rollup -c -w",
+    "prepublishOnly": "npm run build:prod",
+    "demo:build": "rollup -c && cp dist/flowlight.esm.js demo/flowlight.esm.js",
+    "serve": "cd demo && python -m http.server 8000"
+  },
+  "keywords": [
+    "command",
+    "interface",
+    "search",
+    "floating-button",
+    "ui",
+    "keyboard-shortcuts",
+    "command-palette",
+    "react",
+    "flow",
+    "lightweight",
+    "javascript",
+    "typescript"
+  ],
+  "author": "Flowvana",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flowvana/flowlight.git"
+  },
+  "bugs": {
+    "url": "https://github.com/flowvana/flowlight/issues"
+  },
+  "homepage": "https://github.com/flowvana/flowlight#readme",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-replace": "^6.0.2",
+    "@rollup/plugin-terser": "^0.4.0",
+    "dotenv": "^16.0.0",
+    "rollup": "^3.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
